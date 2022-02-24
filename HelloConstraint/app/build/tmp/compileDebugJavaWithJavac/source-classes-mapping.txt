@@ -1,0 +1,4 @@
+helloconstraint/BuildConfig.java
+ helloconstraint.BuildConfig
+mn/edu/num/bagaa/helloconstraint/MainActivity.java
+ mn.edu.num.bagaa.helloconstraint.MainActivity
