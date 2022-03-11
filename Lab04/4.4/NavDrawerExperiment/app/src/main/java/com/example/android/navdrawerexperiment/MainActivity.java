@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2018 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.android.navdrawerexperiment;
 
 import android.os.Bundle;
@@ -21,29 +5,18 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.view.GravityCompat;
+import android.support.widget.DrawerLayout;
+import android.support.app.ActionBarDrawerToggle;
+import android.support.app.AppCompatActivity;
+import android.support.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-/**
- * This app sets up a navigation drawer with the following choices: Import, Gallery,
- * Slideshow, Tools, Share, and Send. Choosing any choice closes the navigation drawer
- * and displays a toast message showing which choice was selected.
- * This app was created using the Navigation Drawer Activity template.
- */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    /**
-     * Creates the content view and toolbar, sets up the drawer layout and the
-     * action bar toggle, and sets up the navigation view.
-     * @param savedInstanceState    Saved instance state bundle.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,9 +50,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * Handles the Back button: closes the nav drawer.
-     */
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -92,11 +63,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * Inflates the options menu.
-     * @param menu  Menu to inflate
-     * @return      Returns true if menu is inflated.
-     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -104,11 +71,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /**
-     * Handles a click on the Settings item in the options menu.
-     * @param item  Item in options menu that was clicked.
-     * @return      Returns true if the item was Settings.
-     */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -124,12 +87,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Handles a navigation drawer item click. It detects which item was
-     * clicked and displays a toast message showing which item.
-     * @param item  Item in the navigation drawer
-     * @return      Returns true after closing the nav drawer
-     */
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -171,10 +129,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * Displays a toast message.
-     * @param message   Message to display in toast
-     */
     public void displayToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
