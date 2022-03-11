@@ -12,11 +12,6 @@ import android.view.View;
 
 import java.util.LinkedList;
 
-/**
- * Implements a basic RecyclerView that displays a list of generated words.
- * - Clicking an item marks it as clicked.
- * - Clicking the fab button adds a new word to the list.
- */
 public class MainActivity extends AppCompatActivity {
 
     private final LinkedList<String> mWordList = new LinkedList<>();
@@ -60,12 +55,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    /**
-     * Inflates the menu, and adds items to the action bar if it is present.
-     *
-     * @param menu Menu to inflate.
-     * @return Returns true if the menu inflated.
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -73,12 +62,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /**
-     * Handles app bar item clicks.
-     *
-     * @param item Item clicked.
-     * @return True if one of the defined items was clicked.
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
