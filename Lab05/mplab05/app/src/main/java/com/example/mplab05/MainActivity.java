@@ -1,76 +1,280 @@
 package com.example.mplab05;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.mplab05.databinding.ActivityMainBinding;
-
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+
+import Data.DatabaseHandler;
+import Model.Word;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    Button btnDelete, btnUpdate, btnAdd, btnPre, btnNext;
+    SharedPreferences settingFile;
+    TextView tvTop, tvBottom;
+    DatabaseHandler DB;
+    ArrayList<Word> words;
+    int indexCurrent = 0;
+    int updateWordIndex = -1;
+    int viewModeMain = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnUpdate = findViewById(R.id.btnUpdate);
+        btnDelete = findViewById(R.id.btnDelete);
+        btnNext = findViewById(R.id.btnNext);
+        btnPre = findViewById(R.id.btnPre);
+        tvTop = findViewById(R.id.tvTop);
+        tvBottom = findViewById(R.id.tvBottom);
+        settingFile = getSharedPreferences("appSettings", Context.MODE_PRIVATE);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        if(settingFile.getInt("viewMode", -1) == -1){
+            SharedPreferences.Editor editor = settingFile.edit();
+            editor.putInt("viewMode", 0);
+            editor.commit();
+        }else{
+            viewModeMain = settingFile.getInt("viewMode", 0);
+        }
 
-        setSupportActionBar(binding.toolbar);
+        DB = new DatabaseHandler(this);
+        words = DB.getWordList();
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        if(words.size() > 0){
+            displayWord();
+        }else{
+            btnNext.setEnabled(false);
+            btnDelete.setEnabled(false);
+            btnPre.setEnabled(false);
+            btnUpdate.setEnabled(false);
+            tvTop.setText("No word");
+            tvBottom.setText("No word");
+        }
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        tvTop.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public boolean onLongClick(View view){
+                Intent i = new Intent();
+                i.setClass(MainActivity.this, AddWord.class);
+                i.putExtra("EngWord", words.get(indexCurrent).getEngWord());
+                i.putExtra("MonWord", words.get(indexCurrent).getMonWord());
+                updateWordIndex = words.get(indexCurrent).getWordId();
+                startActivityForResult(i, 2);
+                Toast.makeText(MainActivity.this, "update", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        tvBottom.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View view){
+                Intent i = new Intent();
+                i.setClass(MainActivity.this, AddWord.class);
+                i.putExtra("EngWord", words.get(indexCurrent).getEngWord());
+                i.putExtra("MonWord", words.get(indexCurrent).getMonWord());
+                updateWordIndex = words.get(indexCurrent).getWordId();
+                startActivityForResult(i, 2);
+                Toast.makeText(MainActivity.this, "update", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        btnAdd.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent i = new Intent();
+                i.setClass(MainActivity.this, AddWord.class);
+                startActivityForResult(i, 1);
+                Toast.makeText(MainActivity.this, "add", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnUpdate.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent i = new Intent();
+                i.setClass(MainActivity.this, AddWord.class);
+                i.putExtra("EngWord", words.get(indexCurrent).getEngWord());
+                i.putExtra("MonWord", words.get(indexCurrent).getMonWord());
+                updateWordIndex = words.get(indexCurrent).getWordId();
+                startActivityForResult(i, 2);
+                Toast.makeText(MainActivity.this, "update", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnDelete.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Устгал")
+                        .setMessage("Үгийг устгах уу?")
+                        .setIcon(R.drawable.ic_action_delete)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Boolean check = DB.destroyData(words.get(indexCurrent));
+                                if(check){
+                                    Toast.makeText(MainActivity.this, words.get(indexCurrent).getEngWord() + " үг амжилттай устлаа.", Toast.LENGTH_SHORT).show();
+                                }
+
+                                indexCurrent--;
+                                if(indexCurrent < 0){
+                                    indexCurrent = 0;
+                                }
+
+                                words = DB.getWordList();
+                                displayWord();
+                            }})
+                        .setNegativeButton(R.string.no, null).show();
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View view){
+                indexCurrent++;
+                if(words.size() <= indexCurrent){
+                    indexCurrent = 0;
+                }
+                displayWord();
+            }
+        });
+
+        btnPre.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View view){
+                indexCurrent--;
+                if(indexCurrent < 0){
+                    indexCurrent = words.size() - 1;
+                }
+                displayWord();
+            }
+        });
+
+        tvTop.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                tvTop.setText(words.get(indexCurrent).getEngWord());
+            }
+        });
+
+        tvBottom.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                tvBottom.setText(words.get(indexCurrent).getMonWord());
             }
         });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public boolean onOptionsItemSelected(@Nullable MenuItem item){
+        switch (item.getItemId()){
+            case R.id.action_settings: {
+                Intent i = new Intent();
+                i.setClass(MainActivity.this, Settings.class);
+                i.putExtra("viewMode", viewModeMain);
+                startActivityForResult(i, 3);
+                break;
+            }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                Word word = new Word();
+                word.setEngWord(data.getStringExtra("EngWord"));
+                word.setMonWord(data.getStringExtra("MonWord"));
+                Boolean check = DB.insertDate(word);
+                if(check){
+                    Toast.makeText(MainActivity.this, word.getEngWord() + " үг амжилттай нэмэгдлээ.", Toast.LENGTH_SHORT).show();
+                }
+                words = DB.getWordList();
+                displayWord();
+            }
+        }
+
+        if(requestCode == 2){
+            if(resultCode == RESULT_OK){
+                Word word = new Word();
+                word.setEngWord(data.getStringExtra("EngWord"));
+                word.setMonWord(data.getStringExtra("MonWord"));
+                word.setWordId(updateWordIndex);
+                Toast.makeText(MainActivity.this, "id: " + String.valueOf(updateWordIndex), Toast.LENGTH_SHORT).show();
+
+                Boolean check = DB.updateData(word);
+                if(check){
+                    Toast.makeText(MainActivity.this, "Амжилттай шинэчлэгдлээ.", Toast.LENGTH_SHORT).show();
+                }
+                updateWordIndex = -1;
+            }
+
+            words = DB.getWordList();
+            displayWord();
+        }
+
+        if(requestCode == 3){
+            if(resultCode == RESULT_OK){
+                viewModeMain = data.getIntExtra("viewMode", -1);
+                SharedPreferences.Editor editor = settingFile.edit();
+                editor.putInt("viewMode", viewModeMain);
+                editor.commit();
+
+                Toast.makeText(MainActivity.this, String.valueOf(viewModeMain) + " viewMode", Toast.LENGTH_SHORT).show();
+            }
+            displayWord();
+        }
+    }
+
+    public void displayWord(){
+        if(words.size() == 0){
+            tvTop.setText("No word");
+            tvBottom.setText("No word");
+            btnNext.setEnabled(false);
+            btnDelete.setEnabled(false);
+            btnPre.setEnabled(false);
+            btnUpdate.setEnabled(false);
+            return;
+        }
+
+        btnNext.setEnabled(true);
+        btnDelete.setEnabled(true);
+        btnPre.setEnabled(true);
+        btnUpdate.setEnabled(true);
+
+        if(viewModeMain == 0){
+            tvTop.setText(words.get(indexCurrent).getEngWord());
+            tvBottom.setText(words.get(indexCurrent).getMonWord());
+        }else if(viewModeMain == 1){
+            tvTop.setText("");
+            tvBottom.setText(words.get(indexCurrent).getMonWord());
+        }else if(viewModeMain == 2){
+            tvTop.setText(words.get(indexCurrent).getEngWord());
+            tvBottom.setText("");
+        }
     }
 }
