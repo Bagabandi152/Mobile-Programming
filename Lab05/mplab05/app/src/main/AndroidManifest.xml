@@ -9,6 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mplab05">
+        <activity android:name=".Settings"
+            android:label="@string/action_settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=
+                    "com.example.mplab05.MainActivity" />
+        </activity>
         <activity android:name=".AddWord"
             android:parentActivityName=".MainActivity">
             <meta-data

@@ -21,7 +21,6 @@ import Model.Word;
 public class AddWord extends AppCompatActivity {
     Button btnInsert, btnBack;
     TextView tvFor, tvMon;
-    DatabaseHandler DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

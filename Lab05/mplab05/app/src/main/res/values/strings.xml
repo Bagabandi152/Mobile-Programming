@@ -13,4 +13,9 @@
     <string name="m_word">Монгол үг</string>
     <string name="yes">Тийм</string>
     <string name="no">Үгүй</string>
+    <string name="visible_eng_mon">Хоёулаанг нь харуулах</string>
+    <string name="visible_mon">Зөвхөн Монгол үгийг харуулах</string>
+    <string name="visible_eng">Зөвхөн гадаад үгйиг харуулах</string>
+    <string name="save">Хадгалах</string>
+    <string name="toBack">Буцах</string>
 </resources>
