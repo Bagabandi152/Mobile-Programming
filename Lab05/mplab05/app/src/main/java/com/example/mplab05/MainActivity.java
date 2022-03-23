@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +18,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 import Data.DatabaseHandler;
 import Model.Word;
@@ -99,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent i = new Intent();
+                i.putExtra("viewMode", viewModeMain);
                 i.setClass(MainActivity.this, AddWord.class);
                 startActivityForResult(i, 1);
                 Toast.makeText(MainActivity.this, "add", Toast.LENGTH_SHORT).show();
@@ -197,6 +206,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(i, 3);
                 break;
             }
+            case R.id.action_from_file:{
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.setType("*/*");
+                startActivityForResult(i, 4);
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -247,6 +262,25 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, String.valueOf(viewModeMain) + " viewMode", Toast.LENGTH_SHORT).show();
             }
             displayWord();
+        }
+
+        if(requestCode == 4){
+            if(resultCode == RESULT_OK){
+                Uri url = data.getData();
+                BufferedReader reader;
+                try{
+                    InputStream is = getContentResolver().openInputStream(url);
+                    reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+                    String line = reader.readLine();
+                    Log.i("String Line --> ", line);
+//                    while(line != ){
+//                        String[] ugs = line.split(",");
+//                    }
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+                displayWord();
+            }
         }
     }
 

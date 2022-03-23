@@ -21,27 +21,29 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         rg = findViewById(R.id.radioGroup);
-//        see_eng_mon = findViewById(R.id.visible_eng_mon);
-//        see_mon = findViewById(R.id.visible_mon);
-//        see_eng = findViewById(R.id.visible_eng);
+        see_eng_mon = findViewById(R.id.visible_eng_mon);
+        see_mon = findViewById(R.id.visible_mon);
+        see_eng = findViewById(R.id.visible_eng);
         btnSave = findViewById(R.id.save);
         btnToBack = findViewById(R.id.toBack);
+        Intent in = getIntent();
+        int intVM = in.getIntExtra("viewMode", 0);
+
+        if(intVM == 1){
+            see_mon.setChecked(true);
+        }else if(intVM == 2){
+            see_eng.setChecked(true);
+        }else{
+            see_eng_mon.setChecked(true);
+        }
 
         btnSave.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 switch (rg.getCheckedRadioButtonId()){
-                    case R.id.visible_eng_mon :{
-                        Intent in = new Intent();
-                        in.putExtra("ViewMode",0);
-                        setResult(RESULT_OK, in);
-                        finish();
-                        break;
-                    }
-
                     case R.id.visible_mon: {
                         Intent in = new Intent();
-                        in.putExtra("ViewMode", 1);
+                        in.putExtra("viewMode", 1);
                         setResult(RESULT_OK, in);
                         finish();
                         break;
@@ -49,7 +51,15 @@ public class Settings extends AppCompatActivity {
 
                     case R.id.visible_eng : {
                         Intent in = new Intent();
-                        in.putExtra("ViewMode", 2);
+                        in.putExtra("viewMode", 2);
+                        setResult(RESULT_OK, in);
+                        finish();
+                        break;
+                    }
+
+                    case R.id.visible_eng_mon: default:{
+                        Intent in = new Intent();
+                        in.putExtra("viewMode",0);
                         setResult(RESULT_OK, in);
                         finish();
                         break;

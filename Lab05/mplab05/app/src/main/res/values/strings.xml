@@ -18,4 +18,5 @@
     <string name="visible_eng">Зөвхөн гадаад үгйиг харуулах</string>
     <string name="save">Хадгалах</string>
     <string name="toBack">Буцах</string>
+    <string name="action_from_file">Export File</string>
 </resources>
