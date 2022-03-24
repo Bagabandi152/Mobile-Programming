@@ -25,6 +25,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListResourceBundle;
+import java.util.stream.Stream;
 
 import Data.DatabaseHandler;
 import Model.Word;
@@ -265,18 +267,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(requestCode == 4){
-            if(resultCode == RESULT_OK){
+            {
                 Uri url = data.getData();
-                BufferedReader reader;
+                //InputStream is = getResources().openRawResource(R.raw.words);
+                String line = "";
                 try{
                     InputStream is = getContentResolver().openInputStream(url);
-                    reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-                    String line = reader.readLine();
-                    Log.i("String Line --> ", line);
-//                    while(line != ){
-//                        String[] ugs = line.split(",");
-//                    }
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+                    while((line = reader.readLine()) != null){
+                        String[] tokens = line.split(",");
+
+                        String engW = tokens[1];
+                        String monW = tokens[2];
+                        Word newWord = new Word();
+                        if(!engW.isEmpty() && !monW.isEmpty()){
+                            newWord.setEngWord(engW);
+                            newWord.setMonWord(monW);
+                            int wid;
+                            try {
+                                wid = Integer.parseInt(tokens[0]);
+                            } catch (NumberFormatException nfe) {
+                                wid = (int)Math.random();
+                            }
+                            newWord.setWordId(wid);
+                            words.add(newWord);
+                        }
+                    }
                 }catch (IOException e){
+                    Log.wtf("WordAppActivity", "Error reading data file on line" + line, e);
                     e.printStackTrace();
                 }
                 displayWord();
