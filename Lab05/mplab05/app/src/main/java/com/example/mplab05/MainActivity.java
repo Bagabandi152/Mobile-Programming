@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
 
                 new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Устгал")
+                        .setTitle("Анхаар")
                         .setMessage("Үгийг устгах уу?")
                         .setIcon(R.drawable.ic_action_delete)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
