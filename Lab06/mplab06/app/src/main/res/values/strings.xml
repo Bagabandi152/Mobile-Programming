@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Өнөөдрийн цаг агаар</string>
+    <string name="second_fragment_label">Долоо хоногийн цаг агаар</string>
+    <string name="previous">өнөөдрийг харах</string>
+    <string name="next">долоо хоногоор харах</string>
+    <string name="city">Хот:</string>
+    <string name="temp">Температур:</string>
+    <string name="description">Тодорхойлолт:</string>
+    <string name="wind_speed">Салхины хурд:</string>
+    <string name="cloudiness">Үүлэрхэг:</string>
+    <string name="pressure">Агаарын даралт:</string>
+    <string name="forecast">Урьдчилсан байлдлаар</string>
+</resources>
