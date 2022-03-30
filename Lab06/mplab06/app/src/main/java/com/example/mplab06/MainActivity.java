@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
-    private TextView city_val, temp_val, desc_val, wind_speed_val, cloudiness_val, pressure_val;
+    private TextView city_val, temp_val, desc_val, wind_speed_val;
     private RecyclerView today_recycle_view;
     private ArrayList<WeatherRVModal> weatherRVModalArrayList;
     private WeatherRVAdapter weatherRVAdapter;
 //    private LocationManager locationManager;
-    private int PERMISSION_CODE = 1;
+    private final int PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,9 @@ public class MainActivity extends AppCompatActivity {
         city_val = findViewById(R.id.city_val);
         temp_val = findViewById(R.id.temp_val);
         wind_speed_val = findViewById(R.id.wind_speed_val);
-        cloudiness_val = findViewById(R.id.cloudiness_val);
-        pressure_val = findViewById(R.id.pressure_val);
+//        cloudiness_val = findViewById(R.id.cloudiness_val);
+//        pressure_val = findViewById(R.id.pressure_val);
+        desc_val = findViewById(R.id.desc_val);
         today_recycle_view = findViewById(R.id.today_recycle_view);
         weatherRVModalArrayList = new ArrayList<>();
         weatherRVAdapter = new WeatherRVAdapter(this, weatherRVModalArrayList);
@@ -108,10 +109,12 @@ public class MainActivity extends AppCompatActivity {
                 weatherRVModalArrayList.clear();
                 try{
                     String temp = response.getJSONObject("current").getString("temp_c");
-                    temp_val.setText(temp);
+                    temp_val.setText(temp + " °c");
+                    String ws = response.getJSONObject("current").getString("wind_kph");
+                    wind_speed_val.setText(ws + " Km/h");
                     int isDay = response.getJSONObject("current").getInt("is_day");
                     String cond = response.getJSONObject("current").getJSONObject("condition").getString("text");
-                    cloudiness_val.setText(cond);
+                    desc_val.setText(cond);
                     //String condIcon = response.getJSONObject("current").getJSONObject("condition").getString("icon");
                     //Picasso.get().load("http:".concat(condIcon)).into(ivImg);
                     if(isDay == 1){
