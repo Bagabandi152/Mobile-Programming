@@ -1,10 +1,7 @@
 package com.example.mplab06;
 
 import android.Manifest;
-//import android.content.Context;
 import android.content.pm.PackageManager;
-//import android.location.Location;
-//import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.android.volley.Request;
@@ -49,14 +46,13 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView today_recycle_view;
     private ArrayList<WeatherRVModal> weatherRVModalArrayList;
     private WeatherRVAdapter weatherRVAdapter;
-//    private LocationManager locationManager;
     private final int PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -74,17 +70,15 @@ public class MainActivity extends AppCompatActivity {
         weatherRVAdapter = new WeatherRVAdapter(this, weatherRVModalArrayList);
         today_recycle_view.setAdapter(weatherRVAdapter);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
         }
 
-//        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         getWeatherInfo();
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
 
     @Override
@@ -113,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
                     String ws = response.getJSONObject("current").getString("wind_kph");
                     wind_speed_val.setText(ws + " Km/h");
                     int isDay = response.getJSONObject("current").getInt("is_day");
-                    String cond = response.getJSONObject("current").getJSONObject("condition").getString("text");
+
+                    JSONObject curr_condition = response.getJSONObject("current").getJSONObject("condition");
+                    String cond = curr_condition.getString("text");
                     desc_val.setText(cond);
                     //String condIcon = response.getJSONObject("current").getJSONObject("condition").getString("icon");
                     //Picasso.get().load("http:".concat(condIcon)).into(ivImg);
@@ -127,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject forecastDay = forecastObj.getJSONArray("forecastday").getJSONObject(0);
                     JSONArray hourArray = forecastDay.getJSONArray("hour");
 
-                    for(int i = 0; i < hourArray.length(); i++){
+                    for(int i = 1; i < hourArray.length(); i = i + 3){
                         JSONObject hourObj = hourArray.getJSONObject(i);
                         String time = hourObj.getString("time");
                         String temper = hourObj.getString("temp_c");

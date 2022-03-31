@@ -15,7 +15,9 @@ import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.ViewHolder> {
@@ -46,6 +48,7 @@ public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.View
             Date t = input.parse(modal.getTime());
             holder.tvTime.setText(output.format(t));
         }catch(ParseException e){
+            holder.tvTime.setText(modal.getTime());
             e.printStackTrace();
         }
     }
