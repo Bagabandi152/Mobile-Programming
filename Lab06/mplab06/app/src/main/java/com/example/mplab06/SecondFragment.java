@@ -93,7 +93,6 @@ public class SecondFragment extends Fragment {
                         String img = dayObj.getJSONObject("day").getJSONObject("condition").getString("icon");
                         String wind = dayObj.getJSONObject("day").getString("maxwind_kph");
                         weatherRVModalArrayList.add(new WeatherRVModal(time, temper, img, wind));
-
                     }
 
                     weatherRVAdapter.notifyDataSetChanged();
