@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">To Do List App</string>
+    <string name="action_settings">Тохиргоо</string>
+    <string name="task">Таны ажлууд:</string>
+    <string name="_20">20</string>
+    <string name="time">time</string>
+    <string name="_13">13</string>
+    <string name="_2022_04_02">2022-04-02</string>
+    <string name="name">name</string>
+    <string name="add">add</string>
+    <string name="all_tasks">Бүх ажлуудыг харах</string>
+    <string name="complete_tasks">Дууссан ажлуудыг харах</string>
+    <string name="incomplete_tasks">Дуусаагүй ажлуудийг харах</string>
+    <string name="save">Хадгалах</string>
+    <string name="back">Буцах</string>
+    <string name="NaN"></string>
+    <string name="reject">Болих</string>
+    <string name="insert">Оруулах</string>
+    <string name="name_hint">Ажлын нэр оруулах</string>
+    <string name="tv_name">Нэр:</string>
+    <string name="tv_deadline">Дуусах хугацаа:</string>
+    <string name="default_status">0</string>
+    <string name="select_date">set</string>
+    <string name="hint_date">dd/MM/yyy</string>
+    <string name="tv_status">Төлөв:</string>
+    <string name="status_hint">0|1</string>
+    <string name="yes">Тийм</string>
+    <string name="no">Үгүй</string>
+</resources>
