@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/GitHub/Mobile-Programming/Lab06/mplab06/app/src/main/res/drawable/card_bg.xml" value="0.204" />
+        <entry key="..\:/GitHub/Mobile-Programming/Lab06/mplab06/app/src/main/res/layout-land/fragment_first.xml" value="0.33" />
+        <entry key="..\:/GitHub/Mobile-Programming/Lab06/mplab06/app/src/main/res/layout-land/fragment_second.xml" value="0.33" />
         <entry key="..\:/GitHub/Mobile-Programming/Lab06/mplab06/app/src/main/res/layout/activity_main.xml" value="0.1661600810536981" />
         <entry key="..\:/GitHub/Mobile-Programming/Lab06/mplab06/app/src/main/res/layout/content_main.xml" value="0.19635416666666666" />
         <entry key="..\:/GitHub/Mobile-Programming/Lab06/mplab06/app/src/main/res/layout/fragment_first.xml" value="0.33" />

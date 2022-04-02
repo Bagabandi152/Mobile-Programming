@@ -110,7 +110,6 @@ public class FirstFragment extends Fragment {
                         String img = hourObj.getJSONObject("condition").getString("icon");
                         String wind = hourObj.getString("wind_kph");
                         weatherRVModalArrayList.add(new WeatherRVModal(time, temper, img, wind));
-
                     }
 
                     weatherRVAdapter.notifyDataSetChanged();
