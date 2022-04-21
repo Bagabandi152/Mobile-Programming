@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(
-                  height: 80,
+                  height: 96,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ),
                 ),
                 Container(
-                    height: MediaQuery.of(context).size.height - 104,
+                    height: MediaQuery.of(context).size.height - 120,
                     width: double.infinity,
                     // color: Colors.white,
                     child: Column(children: <Widget>[
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       ),
                       const Text(
                         'Total Balance',
-                        style: TextStyle(color: Colors.grey, fontSize: 15),
+                        style: TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 10,
@@ -96,16 +96,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         '\$2,456.00',
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 30,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Card(
+                              elevation: 0,
                               child: InkWell(
                                   splashColor: Colors.green.withAlpha(30),
                                   onTap: () {
@@ -113,21 +114,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   },
                                   child: SizedBox(
                                     width: 100,
-                                    height: 55,
-                                    child: Column(children: const <Widget>[
-                                      // Icon(
-                                      //   Icons.add_rounded,
-                                      //   color: Colors.green,
-                                      //   size: 30,
-                                      // ),
-                                      Image(image: AssetImage('images/plus.png')),
-                                      SizedBox(
+                                    height: 90,
+                                    child: Column(children: <Widget>[
+                                      Container(
+                                        width: 60,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.teal, width: 1),
+                                            borderRadius: const BorderRadius.all(Radius.circular(30))
+                                        ),
+                                        child: const Image(image: AssetImage('images/plus.png')),
+                                      ),
+                                      const SizedBox(
                                         height: 5,
                                       ),
-                                      Text('Add'),
+                                      const Text('Add'),
                                     ]),
                                   ))),
                           Card(
+                              elevation: 0,
                               child: InkWell(
                                   splashColor: Colors.green.withAlpha(30),
                                   onTap: () {
@@ -135,20 +140,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   },
                                   child: SizedBox(
                                     width: 100,
-                                    height: 55,
-                                    child: Column(children: const <Widget>[
-                                      Icon(
-                                        Icons.payment_rounded,
-                                        color: Colors.green,
-                                        size: 30,
+                                    height: 90,
+                                    child: Column(children: <Widget>[
+                                      Container(
+                                        width: 60,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.teal, width: 1),
+                                            borderRadius: const BorderRadius.all(Radius.circular(30))
+                                        ),
+                                        child: const Image(image: AssetImage('images/qr_code.png')),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
-                                      Text('Pay'),
+                                      const Text('Pay'),
                                     ]),
                                   ))),
                           Card(
+                              elevation: 0,
                               child: InkWell(
                                   splashColor: Colors.green.withAlpha(30),
                                   onTap: () {
@@ -156,26 +166,32 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   },
                                   child: SizedBox(
                                     width: 100,
-                                    height: 55,
-                                    child: Column(children: const <Widget>[
-                                      Icon(Icons.send_rounded,
-                                          color: Colors.green, size: 30),
-                                      SizedBox(
+                                    height: 90,
+                                    child: Column(children: <Widget>[
+                                      Container(
+                                        width: 60,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.teal, width: 1),
+                                            borderRadius: const BorderRadius.all(Radius.circular(30))
+                                        ),
+                                        child: const Image(image: AssetImage('images/send.png')),
+                                      ),
+                                      const SizedBox(
                                         height: 5,
                                       ),
-                                      Text('Send'),
+                                      const Text('Send'),
                                     ]),
                                   ))),
                         ],
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 30,
                       ),
-
                       Container(
                         height: 45,
                         padding: const EdgeInsets.all(2.0),
-                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                         decoration: BoxDecoration(
                             color: Colors.grey.shade100,
                             borderRadius: const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
@@ -193,7 +209,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ],
                         ),
                       ),
-
                       Expanded(
                         child: TabBarView(
                           controller: _tabController,
