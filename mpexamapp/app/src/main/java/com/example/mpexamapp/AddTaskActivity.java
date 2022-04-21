@@ -1,11 +1,11 @@
 package com.example.mpexamapp;
 
-import static android.graphics.Color.GRAY;
+//import static android.graphics.Color.GRAY;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
+//import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -17,11 +17,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Calendar;
 
-import Data.DatabaseHandler;
-import Model.Task;
+//import Data.DatabaseHandler;
+//import Model.Task;
 
 public class AddTaskActivity extends AppCompatActivity {
     private Button btnInsert, btnBack, btnDate;
