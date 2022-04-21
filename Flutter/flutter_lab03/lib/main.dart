@@ -137,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      const Text('Add'),
+                                      const Text('Add', style: TextStyle(fontWeight: FontWeight.bold)),
                                     ]),
                                   ))),
                           Card(
@@ -163,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      const Text('Pay'),
+                                      const Text('Pay', style: TextStyle(fontWeight: FontWeight.bold)),
                                     ]),
                                   ))),
                           Card(
@@ -189,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      const Text('Send'),
+                                      const Text('Send', style: TextStyle(fontWeight: FontWeight.bold)),
                                     ]),
                                   ))),
                         ],
@@ -228,20 +228,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   return Card(
                                     elevation: 0,
                                     key: UniqueKey(),
-                                    margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                                    margin: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Container(
-                                          width: 2100,
+                                        SizedBox(
+                                          width: 160,
                                           child:Row(
                                             children: [
                                               Image(image: AssetImage('images/' + transactions[index].img.toString() +  '.png')),
-                                              const SizedBox(width: 5,),
+                                              const SizedBox(width: 10,),
                                               Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(transactions[index].name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),),
-                                                  Text(transactions[index].date, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.grey),)
+                                                  Text(transactions[index].date, style: const TextStyle(fontSize: 13, color: Colors.grey),)
                                                 ],
                                               ),
                                             ],
@@ -254,7 +256,48 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     ),
                                   );
                                 }),
-                            const Icon(Icons.directions_transit),
+                            ListView.builder(
+                                itemCount: transactions.length,
+                                itemBuilder: (context, index) {
+                                  return index > 2 ? Card(
+                                    elevation: 0,
+                                    key: UniqueKey(),
+                                    margin: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: 160,
+                                            child:Row(
+                                              children: [
+                                                Image(image: AssetImage('images/' + transactions[index].img.toString() +  '.png')),
+                                                const SizedBox(width: 10,),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(transactions[index].name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),),
+                                                    Text(transactions[index].date, style: const TextStyle(fontSize: 13, color: Colors.grey),)
+                                                  ],
+                                                ),
+                                              ],
+                                            )
+                                        ),
+                                        OutlinedButton(
+                                          onPressed: () {},
+                                          child: const Text('Pay', style: TextStyle(color: Colors.teal),),
+                                          style: OutlinedButton.styleFrom(
+                                            shape: const StadiumBorder(),
+                                            backgroundColor: Colors.tealAccent,
+                                            side: const BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ) : Container();
+                                }),
                           ],
                         ),
                       ),
