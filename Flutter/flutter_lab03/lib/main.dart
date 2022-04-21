@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lab03/Model/Transaction.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +31,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late TabController _tabController;
+  final List<Transaction> transactions = [Transaction("UpWork", "Today", 850.00, 1, 1),
+    Transaction("Transfer", "Yesterday", 85.00, 2, 0),
+    Transaction("Paypal", "Jan 30, 2022", 1406.00, 3, 1),
+    Transaction("Youtube", "Jan 16, 2022", 11.99, 4, 0),
+    Transaction("Electricity", "Mar 28, 2022", 0.00, 5, 1),
+    Transaction("House Rent", "Mar 31, 2022", 0.00, 6, 1),
+    Transaction("Spotify", "Feb 28, 2022", 0.00, 7, 1),
+  ];
 
   @override
   void initState() {
@@ -212,9 +221,40 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       Expanded(
                         child: TabBarView(
                           controller: _tabController,
-                          children: const [
-                            Icon(Icons.directions_car),
-                            Icon(Icons.directions_transit),
+                          children: [
+                            ListView.builder(
+                                itemCount: transactions.length - 3,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    elevation: 0,
+                                    key: UniqueKey(),
+                                    margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 2100,
+                                          child:Row(
+                                            children: [
+                                              Image(image: AssetImage('images/' + transactions[index].img.toString() +  '.png')),
+                                              const SizedBox(width: 5,),
+                                              Column(
+                                                children: [
+                                                  Text(transactions[index].name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),),
+                                                  Text(transactions[index].date, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.grey),)
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                        ),
+                                        Text(transactions[index].status == 1 ? '+\$' + transactions[index].mount.toString() : '-\$' + transactions[index].mount.toString(), style: TextStyle(
+                                          color: transactions[index].status == 1 ? Colors.greenAccent : Colors.redAccent, fontSize: 18, fontWeight: FontWeight.bold
+                                        ),)
+                                      ],
+                                    ),
+                                  );
+                                }),
+                            const Icon(Icons.directions_transit),
                           ],
                         ),
                       ),
