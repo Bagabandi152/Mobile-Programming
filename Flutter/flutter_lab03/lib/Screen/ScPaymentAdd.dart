@@ -97,7 +97,7 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
                   // color: Colors.white70,
                   child: Column(children: <Widget>[
                     const SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Container(
                       height: 45,
@@ -139,32 +139,32 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
                   )),
             ],
           )),
-      bottomNavigationBar: NavigationBar(
-        height: 80,
-        backgroundColor: Colors.white,
-        onDestinationSelected: (int index) {
-          _onItemTapped(index);
-        },
-        selectedIndex: _selectedIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined, color: Colors.grey, size: 35,),
-            label: '',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined, color: Colors.grey, size: 35,),
-            label: '',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.payment_outlined, color: Colors.grey, size: 35,),
-            label: '',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.account_circle_outlined, color: Colors.grey, size: 35,),
-            label: '',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: NavigationBar(
+      //   height: 40,
+      //   backgroundColor: Colors.white,
+      //   onDestinationSelected: (int index) {
+      //     _onItemTapped(index);
+      //   },
+      //   selectedIndex: _selectedIndex,
+      //   destinations: const <Widget>[
+      //     NavigationDestination(
+      //       icon: Icon(Icons.home_outlined, color: Colors.grey, size: 35,),
+      //       label: '',
+      //     ),
+      //     NavigationDestination(
+      //       icon: Icon(Icons.bar_chart_outlined, color: Colors.grey, size: 35,),
+      //       label: '',
+      //     ),
+      //     NavigationDestination(
+      //       icon: Icon(Icons.payment_outlined, color: Colors.grey, size: 35,),
+      //       label: '',
+      //     ),
+      //     NavigationDestination(
+      //       icon: Icon(Icons.account_circle_outlined, color: Colors.grey, size: 35,),
+      //       label: '',
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

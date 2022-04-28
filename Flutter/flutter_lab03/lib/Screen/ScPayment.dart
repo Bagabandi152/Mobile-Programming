@@ -92,19 +92,19 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                 ),
               ),
               Container(
-                  height: MediaQuery.of(context).size.height - 180,
+                  height: MediaQuery.of(context).size.height - 155,
                   width: double.infinity,
                   // color: Colors.white70,
                   child: Column(children: <Widget>[
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     const Text(
                       'Total Balance',
                       style: TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     const Text(
                       '\$2,456.00',
@@ -114,7 +114,7 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                           fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -211,12 +211,12 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                       ],
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Container(
-                      height: 45,
+                      height: 45 ,
                       padding: const EdgeInsets.all(2.0),
-                      margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 0, bottom: 0),
                       decoration: BoxDecoration(
                           color: Colors.grey.shade100,
                           borderRadius: const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
@@ -244,7 +244,7 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                                 return Card(
                                   elevation: 0,
                                   key: UniqueKey(),
-                                  margin: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                                  margin: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 10),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -278,7 +278,7 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                                 return index > 2 ? Card(
                                   elevation: 0,
                                   key: UniqueKey(),
-                                  margin: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                                  margin: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 10),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -327,7 +327,7 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
             ],
           )),
       bottomNavigationBar: NavigationBar(
-        height: 80,
+        height: 55,
         backgroundColor: Colors.white,
         onDestinationSelected: (int index) {
           _onItemTapped(index);
@@ -335,19 +335,19 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
         selectedIndex: _selectedIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            icon: Icon(Icons.home_outlined, color: Colors.grey, size: 35,),
+            icon: Icon(Icons.home_outlined, color: Colors.grey, size: 30,),
             label: '',
           ),
           NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined, color: Colors.grey, size: 35,),
+            icon: Icon(Icons.bar_chart_outlined, color: Colors.grey, size: 30,),
             label: '',
           ),
           NavigationDestination(
-            icon: Icon(Icons.payment_outlined, color: Colors.grey, size: 35,),
+            icon: Icon(Icons.payment_outlined, color: Colors.grey, size: 30,),
             label: '',
           ),
           NavigationDestination(
-            icon: Icon(Icons.account_circle_outlined, color: Colors.grey, size: 35,),
+            icon: Icon(Icons.account_circle_outlined, color: Colors.grey, size: 30,),
             label: '',
           ),
         ],
