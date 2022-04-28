@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lab03/Model/Transaction.dart';
+import 'package:flutter_credit_card/credit_card_brand.dart';
+import 'package:flutter_credit_card/credit_card_form.dart';
+import 'package:flutter_credit_card/credit_card_model.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+
+import 'ScPayment.dart';
 
 class ScPaymentAdd extends StatelessWidget {
   const ScPaymentAdd({Key? key}) : super(key: key);
@@ -41,6 +47,13 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+
+    border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.grey.withOpacity(0.7),
+        width: 2.0,
+      ),
+    );
     super.initState();
   }
 
@@ -49,6 +62,17 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
       _selectedIndex = index;
     });
   }
+
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
+  bool isCvvFocused = false;
+  bool useGlassMorphism = false;
+  bool useBackgroundImage = false;
+  OutlineInputBorder? border;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +95,12 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
                         ),
                         onPressed: () {
                           debugPrint('Clicked back!');
-                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ScPayment(),
+                            ),
+                          );
                         }),
                     const Text(
                       "Wallet",
@@ -92,17 +121,17 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
                 ),
               ),
               Container(
-                  height: MediaQuery.of(context).size.height - 180,
+                  height: MediaQuery.of(context).size.height - 156,
                   width: double.infinity,
                   // color: Colors.white70,
                   child: Column(children: <Widget>[
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Container(
                       height: 45,
                       padding: const EdgeInsets.all(2.0),
-                      margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 0, bottom: 0),
                       decoration: BoxDecoration(
                           color: Colors.grey.shade100,
                           borderRadius: const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
@@ -121,12 +150,161 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
                       ),
                     ),
                     Expanded(
+                      // height: MediaQuery.of(context).size.height - 313,
                       child: TabBarView(
                         controller: _tabController,
-                        children: const <Widget>[
-                          Image(image: AssetImage('images/card.png'),),
-                          Text('cards'),
-                          Text('accounts')
+                        children: <Widget>[
+                          Container(
+                            // width: 200.0,
+                            height: MediaQuery.of(context).size.height - 400,
+                            color: Colors.white,
+                            margin: const EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 0),
+                            child: Column(
+                              children: <Widget>[
+                                // const Image(image: AssetImage('images/card.png'),),
+                                CreditCardWidget(
+                                  cardNumber: '',
+                                  expiryDate: '',
+                                  cardHolderName: '',
+                                  cvvCode: '',
+                                  showBackView: false,
+                                  onCreditCardWidgetChange:(CreditCardBrand) {},
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height - 156,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: <Widget>[
+                                        CreditCardForm(
+                                          formKey: formKey,
+                                          obscureCvv: true,
+                                          obscureNumber: true,
+                                          cardNumber: cardNumber,
+                                          cvvCode: cvvCode,
+                                          isHolderNameVisible: true,
+                                          isCardNumberVisible: true,
+                                          isExpiryDateVisible: true,
+                                          cardHolderName: cardHolderName,
+                                          expiryDate: expiryDate,
+                                          themeColor: Colors.blue,
+                                          textColor: Colors.white,
+                                          cardNumberDecoration: InputDecoration(
+                                            labelText: 'Number',
+                                            hintText: 'XXXX XXXX XXXX XXXX',
+                                            hintStyle: const TextStyle(color: Colors.white),
+                                            labelStyle: const TextStyle(color: Colors.white),
+                                            focusedBorder: border,
+                                            enabledBorder: border,
+                                          ),
+                                          expiryDateDecoration: InputDecoration(
+                                            hintStyle: const TextStyle(color: Colors.white),
+                                            labelStyle: const TextStyle(color: Colors.white),
+                                            focusedBorder: border,
+                                            enabledBorder: border,
+                                            labelText: 'Expired Date',
+                                            hintText: 'XX/XX',
+                                          ),
+                                          cvvCodeDecoration: InputDecoration(
+                                            hintStyle: const TextStyle(color: Colors.white),
+                                            labelStyle: const TextStyle(color: Colors.white),
+                                            focusedBorder: border,
+                                            enabledBorder: border,
+                                            labelText: 'CVV',
+                                            hintText: 'XXX',
+                                          ),
+                                          cardHolderDecoration: InputDecoration(
+                                            hintStyle: const TextStyle(color: Colors.white),
+                                            labelStyle: const TextStyle(color: Colors.white),
+                                            focusedBorder: border,
+                                            enabledBorder: border,
+                                            labelText: 'Card Holder',
+                                          ),
+                                          onCreditCardModelChange: onCreditCardModelChange,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            const Text(
+                                              'Glassmorphism',
+                                              style: TextStyle(
+                                                color: Colors.teal,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            Switch(
+                                              value: useGlassMorphism,
+                                              inactiveTrackColor: Colors.grey,
+                                              activeColor: Colors.teal,
+                                              activeTrackColor: Colors.green,
+                                              onChanged: (bool value) => setState(() {
+                                                useGlassMorphism = value;
+                                              }),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            const Text(
+                                              'Card Image',
+                                              style: TextStyle(
+                                                color: Colors.teal,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            Switch(
+                                              value: useBackgroundImage,
+                                              inactiveTrackColor: Colors.grey,
+                                              activeColor: Colors.teal,
+                                              activeTrackColor: Colors.green,
+                                              onChanged: (bool value) => setState(() {
+                                                useBackgroundImage = value;
+                                              }),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8.0),
+                                            ),
+                                            primary: const Color(0xff1b447b),
+                                          ),
+                                          child: Container(
+                                            margin: const EdgeInsets.all(5),
+                                            child: const Text(
+                                              'Validate',
+                                              style: TextStyle(
+                                                color: Colors.teal,
+                                                fontFamily: 'halter',
+                                                fontSize: 12,
+                                                package: 'flutter_credit_card',
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            if (formKey.currentState!.validate()) {
+                                              debugPrint('valid!');
+                                            } else {
+                                              debugPrint('invalid!');
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ),
+                          // Text('cards'),
+                          const Text('accounts')
                         ],
                       ),
                     ),
@@ -139,32 +317,41 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
                   )),
             ],
           )),
-      // bottomNavigationBar: NavigationBar(
-      //   height: 40,
-      //   backgroundColor: Colors.white,
-      //   onDestinationSelected: (int index) {
-      //     _onItemTapped(index);
-      //   },
-      //   selectedIndex: _selectedIndex,
-      //   destinations: const <Widget>[
-      //     NavigationDestination(
-      //       icon: Icon(Icons.home_outlined, color: Colors.grey, size: 35,),
-      //       label: '',
-      //     ),
-      //     NavigationDestination(
-      //       icon: Icon(Icons.bar_chart_outlined, color: Colors.grey, size: 35,),
-      //       label: '',
-      //     ),
-      //     NavigationDestination(
-      //       icon: Icon(Icons.payment_outlined, color: Colors.grey, size: 35,),
-      //       label: '',
-      //     ),
-      //     NavigationDestination(
-      //       icon: Icon(Icons.account_circle_outlined, color: Colors.grey, size: 35,),
-      //       label: '',
-      //     ),
-      //   ],
-      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        // backgroundColor: Colors.white,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart_outlined),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.payment_outlined),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            label: '',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.teal,
+        onTap: _onItemTapped,
+      ),
     );
+  }
+
+  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
+    setState(() {
+      cardNumber = creditCardModel!.cardNumber;
+      expiryDate = creditCardModel.expiryDate;
+      cardHolderName = creditCardModel.cardHolderName;
+      cvvCode = creditCardModel.cvvCode;
+      isCvvFocused = creditCardModel.isCvvFocused;
+    });
   }
 }

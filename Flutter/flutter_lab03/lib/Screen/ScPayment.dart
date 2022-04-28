@@ -92,7 +92,7 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                 ),
               ),
               Container(
-                  height: MediaQuery.of(context).size.height - 155,
+                  height: MediaQuery.of(context).size.height - 156,
                   width: double.infinity,
                   // color: Colors.white70,
                   child: Column(children: <Widget>[
@@ -122,18 +122,15 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                         Card(
                             elevation: 0,
                             child: InkWell(
-                                splashColor: Colors.green.withAlpha(30),
+                                // splashColor: Colors.green.withAlpha(30),
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   debugPrint('Add card tapped.');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => const ScPaymentAdd(),
-                                      // Pass the arguments as part of the RouteSettings. The
-                                      // DetailScreen reads the arguments from these settings.
-                                      // settings: RouteSettings(
-                                      //   arguments: todos[index],
-                                      // ),
                                     ),
                                   );
                                 },
@@ -326,31 +323,30 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                   )),
             ],
           )),
-      bottomNavigationBar: NavigationBar(
-        height: 55,
-        backgroundColor: Colors.white,
-        onDestinationSelected: (int index) {
-          _onItemTapped(index);
-        },
-        selectedIndex: _selectedIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined, color: Colors.grey, size: 30,),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        // backgroundColor: Colors.white,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
             label: '',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined, color: Colors.grey, size: 30,),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart_outlined),
             label: '',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.payment_outlined, color: Colors.grey, size: 30,),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.payment_outlined),
             label: '',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.account_circle_outlined, color: Colors.grey, size: 30,),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
             label: '',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.teal,
+        onTap: _onItemTapped,
       ),
     );
   }
