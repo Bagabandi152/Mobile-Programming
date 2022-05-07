@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub/Mobile-Programming/mpexamapp/app/src/main/res/drawable-hdpi/status_bg.xml" value="0.196" />
+        <entry key="..\:/GitHub/Mobile-Programming/mpexamapp/app/src/main/res/drawable/card_bg.xml" value="0.196" />
+        <entry key="..\:/GitHub/Mobile-Programming/mpexamapp/app/src/main/res/layout/activity_add_task.xml" value="0.33" />
+        <entry key="..\:/GitHub/Mobile-Programming/mpexamapp/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/GitHub/Mobile-Programming/mpexamapp/app/src/main/res/layout/activity_settings.xml" value="0.18802083333333333" />
+        <entry key="..\:/GitHub/Mobile-Programming/mpexamapp/app/src/main/res/layout/task_rv_item.xml" value="0.3804004214963119" />
+        <entry key="..\:/GitHub/Mobile-Programming/mpexamapp/app/src/main/res/menu/menu_main.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Littl/StudioProjects/mpexamapp/app/src/main/res/drawable/card_bg.xml" value="0.196" />
         <entry key="..\:/Users/Littl/StudioProjects/mpexamapp/app/src/main/res/layout/activity_add_task.xml" value="0.25" />
         <entry key="..\:/Users/Littl/StudioProjects/mpexamapp/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />

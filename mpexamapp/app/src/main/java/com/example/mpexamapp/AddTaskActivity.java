@@ -24,7 +24,7 @@ import java.util.Calendar;
 //import Model.Task;
 
 public class AddTaskActivity extends AppCompatActivity {
-    private Button btnInsert, btnBack, btnDate;
+    private Button btnInsert, btnBack;
     private EditText etName, etDeadline, etStatus;
     private Calendar calendar;
     private int year, month, day;

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -21,17 +22,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(@NonNull SQLiteDatabase db) {
         String CREATE_DB_WORD = "CREATE TABLE " + Constants.TABLE_NAME + "(" + Constants.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Constants.NAME + " TEXT, " + Constants.STATUS + " TEXT, " + Constants.DEADLINE + " TEXT);";
         db.execSQL(CREATE_DB_WORD);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer){
+    public void onUpgrade(@NonNull SQLiteDatabase db, int oldVer, int newVer){
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME);
     }
 
-    public Boolean insertDate(Task task){
+    public Boolean insertTask(@NonNull Task task){
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.NAME, task.getName());
@@ -47,7 +48,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean updateData(Task task){
+    public Boolean updateData(@NonNull Task task){
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.NAME, task.getName());
@@ -69,7 +70,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean destroyData(Task task){
+    public Boolean destroyData(@NonNull Task task){
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("SELECT*FROM " + Constants.TABLE_NAME + " WHERE " + Constants.KEY_ID + " = ?", new String[]{ String.valueOf(task.get_id()) });
 
@@ -88,9 +89,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<Task> getWordList(){
+    public ArrayList<Task> getTaskList(){
         taskList.clear();
-
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("SELECT*FROM " + Constants.TABLE_NAME, null);
         if(cursor.getCount() == 0){

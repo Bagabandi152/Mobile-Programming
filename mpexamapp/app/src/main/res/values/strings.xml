@@ -7,6 +7,7 @@
     <string name="_13">13</string>
     <string name="_2022_04_02">2022-04-02</string>
     <string name="name">name</string>
+    <string name="id">id</string>
     <string name="add">add</string>
     <string name="all_tasks">Бүх ажлуудыг харах</string>
     <string name="complete_tasks">Дууссан ажлуудыг харах</string>
@@ -23,7 +24,7 @@
     <string name="select_date">set</string>
     <string name="hint_date">dd/MM/yyy</string>
     <string name="tv_status">Төлөв:</string>
-    <string name="status_hint">0|1</string>
+    <string name="status_hint">0 or 1</string>
     <string name="yes">Тийм</string>
     <string name="no">Үгүй</string>
 </resources>

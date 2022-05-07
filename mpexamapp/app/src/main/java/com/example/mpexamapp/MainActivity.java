@@ -10,11 +10,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mpexamapp.Modals.TaskRVAdapter;
@@ -30,14 +35,12 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences settingFile;
     private DatabaseHandler DB;
     private ArrayList<Task> tasksArray;
-    private RecyclerView tasks;
-    private ArrayList<TaskRVModal>  taskRVModalArrayList;
+    private ArrayList<TaskRVModal> taskRVModalArrayList;
     private TaskRVAdapter taskRVAdapter;
     private Button btnAdd;
     private CardView cardView;
 
-    int indexCurrent = 0;
-    int updateWordIndex = -1;
+    int updateTaskId = -1;
     int viewModeMain = 0;
 
     @Override
@@ -45,50 +48,68 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tasks = findViewById(R.id.rv_tasks);
+        RecyclerView rvTasks = findViewById(R.id.rv_tasks);
         btnAdd = findViewById(R.id.btnAdd);
         cardView = findViewById(R.id.cardView);
 
-        cardView.setOnLongClickListener(new View.OnLongClickListener(){
-            @Override
-            public boolean onLongClick(View view){
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Анхаар")
-                        .setMessage("Ажлыг устгах уу?")
-                        .setIcon(R.drawable.ic_action_delete)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Boolean check = DB.destroyData(tasksArray.get(indexCurrent));
-                                if(check){
-                                    Toast.makeText(MainActivity.this, tasksArray.get(indexCurrent).getName() + " ажил амжилттай устлаа.", Toast.LENGTH_SHORT).show();
-                                }
+        taskRVModalArrayList = new ArrayList<>();
+        taskRVAdapter = new TaskRVAdapter(this, taskRVModalArrayList);
+        rvTasks.setAdapter(taskRVAdapter);
 
-                                indexCurrent--;
-                                if(indexCurrent < 0){
-                                    indexCurrent = 0;
-                                }
+//        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent i = new Intent();
+//                i.setClass(MainActivity.this, AddTaskActivity.class);
+//                i.putExtra("name", tasksArray.get(position).getName());
+//                i.putExtra("deadline", tasksArray.get(position).getDeadline());
+//                i.putExtra("status", tasksArray.get(position).getStatus());
+//                updateTaskId = tasksArray.get(position).get_id();
+//                startActivityForResult(i, 2);
+//                Toast.makeText(MainActivity.this, "update", Toast.LENGTH_SHORT).show();
+//            }
+//        };
 
-                                tasksArray = DB.getWordList();
-                                displayTasks();
-                            }})
-                        .setNegativeButton(R.string.no, null).show();
-                return true;
-            }
-        });
-
-        cardView.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                Intent i = new Intent();
-                i.setClass(MainActivity.this, AddTaskActivity.class);
-                i.putExtra("name", tasksArray.get(indexCurrent).getName());
-                i.putExtra("deadline", tasksArray.get(indexCurrent).getDeadline());
-                i.putExtra("status", tasksArray.get(indexCurrent).getStatus());
-                updateWordIndex = tasksArray.get(indexCurrent).get_id();
-                startActivityForResult(i, 2);
-                Toast.makeText(MainActivity.this, "update", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        AdapterView.OnLongClickListener onLongClickListener = new AdapterView.OnLongClickListener(){
+//            @Override
+//            public boolean onLongClick(View view) {
+//                TextView tvID = view.findViewById(R.id.tvID);
+//                TextView tvName = view.findViewById(R.id.tvName);
+//                TextView tvDeadline = view.findViewById(R.id.tvDeadline);
+//                View vStatus = view.findViewById(R.id.vStatus);
+//
+//                String status;
+//                int color = Color.TRANSPARENT;
+//                Drawable background = vStatus.getBackground();
+//                if (background instanceof ColorDrawable)
+//                    color = ((ColorDrawable) background).getColor();
+//
+//                if(color == Color.GREEN) status = "1";
+//                else status = "0";
+//
+//                new AlertDialog.Builder(MainActivity.this)
+//                        .setTitle("Анхаар")
+//                        .setMessage("Ажлыг устгах уу?")
+//                        .setIcon(R.drawable.ic_action_delete)
+//                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int whichButton) {
+//                                Task tsk = new Task();
+//                                int id = Integer.parseInt(tvID.getText().toString());
+//                                tsk.set_id(id);
+//                                tsk.setName(tvName.getText().toString());
+//                                tsk.setDeadline(tvDeadline.getText().toString());
+//                                tsk.setStatus(status);
+//                                Boolean check = DB.destroyData(tsk);
+//                                if(check){
+//                                    Toast.makeText(MainActivity.this, tvName.getText() + " ажил амжилттай устлаа.", Toast.LENGTH_SHORT).show();
+//                                }
+//                                tasksArray = DB.getTaskList();
+//                                displayTasks();
+//                            }})
+//                        .setNegativeButton(R.string.no, null).show();
+//                return true;
+//            }
+//        };
 
         btnAdd.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -113,8 +134,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         DB = new DatabaseHandler(this);
-        tasksArray = DB.getWordList();
-
+        tasksArray = DB.getTaskList();
 
         if(tasksArray.size() > 0){
             displayTasks();
@@ -149,11 +169,11 @@ public class MainActivity extends AppCompatActivity {
                 task.setName(data.getStringExtra("name"));
                 task.setStatus(data.getStringExtra("status"));
                 task.setDeadline(data.getStringExtra("deadline"));
-                Boolean check = DB.insertDate(task);
+                Boolean check = DB.insertTask(task);
                 if(check){
                     Toast.makeText(MainActivity.this, task.getName() + " ажил амжилттай нэмэгдлээ.", Toast.LENGTH_SHORT).show();
                 }
-                tasksArray = DB.getWordList();
+                tasksArray = DB.getTaskList();
                 displayTasks();
             }
         }
@@ -164,17 +184,17 @@ public class MainActivity extends AppCompatActivity {
                 task.setName(data.getStringExtra("name"));
                 task.setStatus(data.getStringExtra("status"));
                 task.setDeadline(data.getStringExtra("deadline"));
-                task.set_id(updateWordIndex);
-                Toast.makeText(MainActivity.this, "id: " + String.valueOf(updateWordIndex), Toast.LENGTH_SHORT).show();
+                task.set_id(updateTaskId);
+                Toast.makeText(MainActivity.this, "id: " + String.valueOf(updateTaskId), Toast.LENGTH_SHORT).show();
 
                 Boolean check = DB.updateData(task);
                 if(check){
                     Toast.makeText(MainActivity.this, "Амжилттай шинэчлэгдлээ.", Toast.LENGTH_SHORT).show();
                 }
-                updateWordIndex = -1;
+                updateTaskId = -1;
             }
 
-            tasksArray = DB.getWordList();
+            tasksArray = DB.getTaskList();
             displayTasks();
         }
 
@@ -197,30 +217,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(viewModeMain == 0){
+            taskRVModalArrayList.clear();
             for(int i = 0; i < tasksArray.size(); i++){
+//                int id = tasksArray.get(i).get_id();
                 String name = tasksArray.get(i).getName();
                 String deadline = tasksArray.get(i).getDeadline();
                 String status = tasksArray.get(i).getStatus();
+//                taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
                 taskRVModalArrayList.add(new TaskRVModal(name, status, deadline));
             }
+            taskRVAdapter.notifyDataSetChanged();
         }else if(viewModeMain == 1){
+            taskRVModalArrayList.clear();
             for(int i = 0; i < tasksArray.size(); i++){
                 if(tasksArray.get(i).getStatus().equals("0")){
+//                    int id = tasksArray.get(i).get_id();
                     String name = tasksArray.get(i).getName();
                     String deadline = tasksArray.get(i).getDeadline();
                     String status = tasksArray.get(i).getStatus();
+//                    taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
                     taskRVModalArrayList.add(new TaskRVModal(name, status, deadline));
                 }
             }
+            taskRVAdapter.notifyDataSetChanged();
         }else if(viewModeMain == 2){
+            taskRVModalArrayList.clear();
             for(int i = 0; i < tasksArray.size(); i++){
                 if(tasksArray.get(i).getStatus().equals("1")){
+//                    int id = tasksArray.get(i).get_id();
                     String name = tasksArray.get(i).getName();
                     String deadline = tasksArray.get(i).getDeadline();
                     String status = tasksArray.get(i).getStatus();
+//                    taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
                     taskRVModalArrayList.add(new TaskRVModal(name, status, deadline));
                 }
             }
+            taskRVAdapter.notifyDataSetChanged();
         }
     }
 
