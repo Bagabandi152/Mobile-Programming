@@ -37,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Task> tasksArray;
     private ArrayList<TaskRVModal> taskRVModalArrayList;
     private TaskRVAdapter taskRVAdapter;
-    private Button btnAdd;
+    private Button btnAdd, btnEdit, btnDelete;
     private CardView cardView;
 
-    int updateTaskId = -1;
-    int viewModeMain = 0;
+    public int currentIndex = 0;
+    public int updateTaskId = -1;
+    private int viewModeMain = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,66 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView rvTasks = findViewById(R.id.rv_tasks);
         btnAdd = findViewById(R.id.btnAdd);
+        btnEdit = findViewById(R.id.btnEdit);
         cardView = findViewById(R.id.cardView);
 
         taskRVModalArrayList = new ArrayList<>();
         taskRVAdapter = new TaskRVAdapter(this, taskRVModalArrayList);
         rvTasks.setAdapter(taskRVAdapter);
-
-//        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent i = new Intent();
-//                i.setClass(MainActivity.this, AddTaskActivity.class);
-//                i.putExtra("name", tasksArray.get(position).getName());
-//                i.putExtra("deadline", tasksArray.get(position).getDeadline());
-//                i.putExtra("status", tasksArray.get(position).getStatus());
-//                updateTaskId = tasksArray.get(position).get_id();
-//                startActivityForResult(i, 2);
-//                Toast.makeText(MainActivity.this, "update", Toast.LENGTH_SHORT).show();
-//            }
-//        };
-
-//        AdapterView.OnLongClickListener onLongClickListener = new AdapterView.OnLongClickListener(){
-//            @Override
-//            public boolean onLongClick(View view) {
-//                TextView tvID = view.findViewById(R.id.tvID);
-//                TextView tvName = view.findViewById(R.id.tvName);
-//                TextView tvDeadline = view.findViewById(R.id.tvDeadline);
-//                View vStatus = view.findViewById(R.id.vStatus);
-//
-//                String status;
-//                int color = Color.TRANSPARENT;
-//                Drawable background = vStatus.getBackground();
-//                if (background instanceof ColorDrawable)
-//                    color = ((ColorDrawable) background).getColor();
-//
-//                if(color == Color.GREEN) status = "1";
-//                else status = "0";
-//
-//                new AlertDialog.Builder(MainActivity.this)
-//                        .setTitle("Анхаар")
-//                        .setMessage("Ажлыг устгах уу?")
-//                        .setIcon(R.drawable.ic_action_delete)
-//                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int whichButton) {
-//                                Task tsk = new Task();
-//                                int id = Integer.parseInt(tvID.getText().toString());
-//                                tsk.set_id(id);
-//                                tsk.setName(tvName.getText().toString());
-//                                tsk.setDeadline(tvDeadline.getText().toString());
-//                                tsk.setStatus(status);
-//                                Boolean check = DB.destroyData(tsk);
-//                                if(check){
-//                                    Toast.makeText(MainActivity.this, tvName.getText() + " ажил амжилттай устлаа.", Toast.LENGTH_SHORT).show();
-//                                }
-//                                tasksArray = DB.getTaskList();
-//                                displayTasks();
-//                            }})
-//                        .setNegativeButton(R.string.no, null).show();
-//                return true;
-//            }
-//        };
 
         btnAdd.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -219,24 +166,22 @@ public class MainActivity extends AppCompatActivity {
         if(viewModeMain == 0){
             taskRVModalArrayList.clear();
             for(int i = 0; i < tasksArray.size(); i++){
-//                int id = tasksArray.get(i).get_id();
+                int id = tasksArray.get(i).get_id();
                 String name = tasksArray.get(i).getName();
                 String deadline = tasksArray.get(i).getDeadline();
                 String status = tasksArray.get(i).getStatus();
-//                taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
-                taskRVModalArrayList.add(new TaskRVModal(name, status, deadline));
+                taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
             }
             taskRVAdapter.notifyDataSetChanged();
         }else if(viewModeMain == 1){
             taskRVModalArrayList.clear();
             for(int i = 0; i < tasksArray.size(); i++){
                 if(tasksArray.get(i).getStatus().equals("0")){
-//                    int id = tasksArray.get(i).get_id();
+                    int id = tasksArray.get(i).get_id();
                     String name = tasksArray.get(i).getName();
                     String deadline = tasksArray.get(i).getDeadline();
                     String status = tasksArray.get(i).getStatus();
-//                    taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
-                    taskRVModalArrayList.add(new TaskRVModal(name, status, deadline));
+                    taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
                 }
             }
             taskRVAdapter.notifyDataSetChanged();
@@ -244,12 +189,11 @@ public class MainActivity extends AppCompatActivity {
             taskRVModalArrayList.clear();
             for(int i = 0; i < tasksArray.size(); i++){
                 if(tasksArray.get(i).getStatus().equals("1")){
-//                    int id = tasksArray.get(i).get_id();
+                    int id = tasksArray.get(i).get_id();
                     String name = tasksArray.get(i).getName();
                     String deadline = tasksArray.get(i).getDeadline();
                     String status = tasksArray.get(i).getStatus();
-//                    taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
-                    taskRVModalArrayList.add(new TaskRVModal(name, status, deadline));
+                    taskRVModalArrayList.add(new TaskRVModal(id, name, status, deadline));
                 }
             }
             taskRVAdapter.notifyDataSetChanged();

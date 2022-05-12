@@ -27,4 +27,6 @@
     <string name="status_hint">0 or 1</string>
     <string name="yes">Тийм</string>
     <string name="no">Үгүй</string>
+    <string name="delete">x</string>
+    <string name="edit">...</string>
 </resources>

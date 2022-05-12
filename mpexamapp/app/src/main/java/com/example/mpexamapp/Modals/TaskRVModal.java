@@ -1,25 +1,25 @@
 package com.example.mpexamapp.Modals;
 
 public class TaskRVModal {
-//    private int id;
+    private int _id;
     private String name;
     private String status;
     private String deadline;
 
-    public TaskRVModal(String name, String status, String deadline) {
-//        this.id = id;
+    public TaskRVModal(int _id, String name, String status, String deadline) {
+        this._id = _id;
         this.name = name;
         this.status = status;
         this.deadline = deadline;
     }
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = _id;
+    }
 
     public String getName() {
         return name;
