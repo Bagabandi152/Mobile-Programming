@@ -5,7 +5,15 @@ class Transaction{
   final int img;
   final int status;
 
-  Transaction(this.name, this.date, this.mount, this.img, this.status);
+  // Transaction(this.name, this.date, this.mount, this.img, this.status);
+
+  const Transaction({
+    required this.name,
+    required this.date,
+    required this.mount,
+    required this.img,
+    required this.status
+  });
 
   set status(int value) {
     status = value;
@@ -25,5 +33,15 @@ class Transaction{
 
   set name(String value) {
     name = value;
+  }
+
+  factory Transaction.fromJson(Map<String, dynamic> json) {
+    return Transaction(
+      name: json['name'],
+      date: json['date'],
+      mount: json['mount'],
+      img: json['img'],
+      status: json['status']
+    );
   }
 }

@@ -16,6 +16,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
       ),
       home: const ScPaymentPage(title: 'Wallet'),
+      initialRoute: '/payment',
+      routes: {
+        '/payment': (context) => const ScPaymentPage(title: 'Wallet'),
+      },
     );
   }
 }

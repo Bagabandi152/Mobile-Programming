@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_lab03/Model/Transaction.dart';
 import 'package:flutter_lab03/Screen/ScPaymentAdd.dart';
 
@@ -28,27 +31,43 @@ class ScPaymentPage extends StatefulWidget {
 
 class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateMixin {
   late TabController _tabController;
-  final List<Transaction> transactions = [
-    Transaction("UpWork", "Today", 850.00, 1, 1),
-    Transaction("Transfer", "Yesterday", 85.00, 2, 0),
-    Transaction("Paypal", "Jan 30, 2022", 1406.00, 3, 1),
-    Transaction("Youtube", "Jan 16, 2022", 11.99, 4, 0),
-    Transaction("Electricity", "Mar 28, 2022", 0.00, 5, 1),
-    Transaction("House Rent", "Mar 31, 2022", 0.00, 6, 1),
-    Transaction("Spotify", "Feb 28, 2022", 0.00, 7, 1),
-  ];
+  late List<Transaction> transactions;
+
+  // late Future<List<Transaction>> futureTransactions;
   late int _selectedIndex = 2;
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    fetchTransaction();
+    // setState(() {
+    //   transactions = fetchTransaction() as List<Transaction>;
+    // });
   }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Future fetchTransaction() async {
+    final response = await http
+        .get(Uri.parse('https://api.jsonbin.io/b/627dbb4025069545a3345561'));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      // debugPrint(response.body);
+
+      transactions = (jsonDecode(response.body) as List).map((data) => Transaction.fromJson(data)).toList();
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load transaction');
+    }
   }
 
   @override

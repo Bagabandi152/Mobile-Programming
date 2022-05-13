@@ -34,15 +34,6 @@ class ScPaymentAddPage extends StatefulWidget {
 
 class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProviderStateMixin {
   late TabController _tabController;
-  final List<Transaction> transactions = [
-    Transaction("UpWork", "Today", 850.00, 1, 1),
-    Transaction("Transfer", "Yesterday", 85.00, 2, 0),
-    Transaction("Paypal", "Jan 30, 2022", 1406.00, 3, 1),
-    Transaction("Youtube", "Jan 16, 2022", 11.99, 4, 0),
-    Transaction("Electricity", "Mar 28, 2022", 0.00, 5, 1),
-    Transaction("House Rent", "Mar 31, 2022", 0.00, 6, 1),
-    Transaction("Spotify", "Feb 28, 2022", 0.00, 7, 1),
-  ];
   late int _selectedIndex = 2;
 
   @override
