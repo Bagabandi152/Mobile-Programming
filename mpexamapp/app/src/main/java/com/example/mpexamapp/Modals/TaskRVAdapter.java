@@ -10,20 +10,16 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mpexamapp.AddTaskActivity;
 import com.example.mpexamapp.MainActivity;
 import com.example.mpexamapp.R;
 
-import org.w3c.dom.Text;
-
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import Data.DatabaseHandler;
@@ -56,7 +52,7 @@ public class TaskRVAdapter extends RecyclerView.Adapter<TaskRVAdapter.ViewHolder
             holder.vStatus.setBackgroundColor(Color.RED);
         }
 
-        holder.tvID.setText("task id: " + modal.getId());
+        holder.tvID.setText(Integer.toString(modal.getId()));
         holder.tvName.setText(modal.getName());
         holder.tvDeadline.setText(modal.getDeadline());
     }
@@ -73,6 +69,8 @@ public class TaskRVAdapter extends RecyclerView.Adapter<TaskRVAdapter.ViewHolder
         private final TextView tvName;
         private final TextView tvDeadline;
         private final View vStatus;
+        private Button deleteBtn;
+        private Button editBtn;
         private DatabaseHandler DB;
 
         public View view;
@@ -84,6 +82,8 @@ public class TaskRVAdapter extends RecyclerView.Adapter<TaskRVAdapter.ViewHolder
             tvName = itemView.findViewById(R.id.tvName);
             tvDeadline = itemView.findViewById(R.id.tvDeadline);
             vStatus = itemView.findViewById(R.id.vStatus);
+            editBtn = itemView.findViewById(R.id.editBtn);
+            deleteBtn = itemView.findViewById(R.id.deleteBtn);
 
             String status;
             int color = Color.TRANSPARENT;
@@ -97,23 +97,21 @@ public class TaskRVAdapter extends RecyclerView.Adapter<TaskRVAdapter.ViewHolder
             view = itemView;
             DB = new DatabaseHandler(view.getContext());
 
-            view.setOnClickListener(new View.OnClickListener() {
+            editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    TextView tvTmpId = v.findViewById(R.id.tvID);
                     Intent i = new Intent();
-                    i.setClass(v.getContext(), AddTaskActivity.class);
+                    i.setClass(v.getContext(), MainActivity.class);
                     i.putExtra("name", tvName.getText().toString());
                     i.putExtra("deadline", tvDeadline.getText().toString());
                     i.putExtra("status", status);
                     v.getContext().startActivity(i);
-                    Toast.makeText(v.getContext(), "task update", Toast.LENGTH_SHORT).show();
-                    currentId = Integer.parseInt(tvTmpId.getText().toString());
+                    currentId = Integer.parseInt(tvID.getText().toString());
                 }
             });
 
-            view.setOnLongClickListener(new View.OnLongClickListener() {
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View view) {
+                public void onClick(View view) {
                     String status;
                     int color = Color.TRANSPARENT;
                     Drawable background = vStatus.getBackground();
@@ -140,11 +138,10 @@ public class TaskRVAdapter extends RecyclerView.Adapter<TaskRVAdapter.ViewHolder
                                         Intent intent = new Intent();
                                         intent.setClass(view.getContext(), MainActivity.class);
                                         view.getContext().startActivity(intent);
-                                        Toast.makeText(view.getContext(), "id: " + tvID.getText() + "name: " + tvName.getText() + " ажил амжилттай устлаа.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(view.getContext(), "id: " + tvID.getText() + ", name: " + tvName.getText() + " ажил амжилттай устлаа.", Toast.LENGTH_SHORT).show();
                                     }
                                 }})
                             .setNegativeButton(R.string.no, null).show();
-                    return true;
                 }
             });
         }

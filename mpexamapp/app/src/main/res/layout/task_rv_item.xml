@@ -16,43 +16,43 @@
         android:layout_height="wrap_content"
         android:background="@drawable/card_bg">
 
-        <View
-            android:id="@+id/vStatus"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/green"
-            android:padding="0dp" />
+        <LinearLayout
+            android:id="@+id/linearLayoutTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/id"
+                android:textAlignment="center"
+                android:textColor="@color/purple_200"
+                tools:ignore="TextContrastCheck" />
+
+            <View
+                android:id="@+id/vStatus"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@color/green"
+                android:padding="0dp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvID"
+            android:layout_below="@id/linearLayoutTop"
             android:layout_centerHorizontal="true"
-            android:gravity="center"
             android:padding="4dp"
             android:text="@string/name"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@color/white"
             tools:ignore="TextContrastCheck" />
 
-        <TextView
-            android:id="@+id/tvID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/vStatus"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/id"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/tvDeadline"
@@ -83,13 +83,23 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnEdit"
+                android:id="@+id/editBtn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/edit"
+                android:textColor="#fff"
+                tools:ignore="TextContrastCheck,TextContrastCheck,DuplicateSpeakableTextCheck" />
+
+            <Button
+                android:id="@+id/deleteBtn"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/edit"
-                android:textColor="#fff"
+                android:text="@string/delete"
+                android:textColor="#FF0000"
                 tools:ignore="TextContrastCheck,TextContrastCheck" />
         </LinearLayout>
 

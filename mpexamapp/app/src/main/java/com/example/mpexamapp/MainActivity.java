@@ -2,24 +2,16 @@ package com.example.mpexamapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mpexamapp.Modals.TaskRVAdapter;
@@ -37,10 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Task> tasksArray;
     private ArrayList<TaskRVModal> taskRVModalArrayList;
     private TaskRVAdapter taskRVAdapter;
-    private Button btnAdd, btnEdit, btnDelete;
-    private CardView cardView;
 
-    public int currentIndex = 0;
     public int updateTaskId = -1;
     private int viewModeMain = 0;
 
@@ -50,15 +39,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView rvTasks = findViewById(R.id.rv_tasks);
-        btnAdd = findViewById(R.id.btnAdd);
-        btnEdit = findViewById(R.id.btnEdit);
-        cardView = findViewById(R.id.cardView);
+        Button btnAdd = findViewById(R.id.btnAdd);
+
+        Intent updateTaskIntent = getIntent();
+
+        if(updateTaskIntent != null && updateTaskIntent.getStringExtra("name") != null){
+            Intent i = new Intent();
+            i.putExtra("name", updateTaskIntent.getStringExtra("name"));
+            i.putExtra("deadline", updateTaskIntent.getStringExtra("deadline"));
+            i.putExtra("status", updateTaskIntent.getStringExtra("status"));
+            i.setClass(MainActivity.this, AddTaskActivity.class);
+            startActivityForResult(i, 2);
+            Toast.makeText(MainActivity.this, "update", Toast.LENGTH_SHORT).show();
+        }
 
         taskRVModalArrayList = new ArrayList<>();
         taskRVAdapter = new TaskRVAdapter(this, taskRVModalArrayList);
+        updateTaskId = taskRVAdapter.getCurrentId();
         rvTasks.setAdapter(taskRVAdapter);
 
-        btnAdd.setOnClickListener( new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 Intent i = new Intent();
