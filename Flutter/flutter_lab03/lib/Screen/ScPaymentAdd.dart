@@ -14,7 +14,7 @@ class ScPaymentAdd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Wallet',
+      title: 'Connect Wallet',
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
@@ -65,6 +65,30 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  Card getAccountCard(String _status, String _imgUrl, String _title, String _desc){
+    return Card(
+      color: _status.isNotEmpty ? Colors.teal[100] : Colors.grey[100],
+      child: Container(
+        width: 350,
+        height: 100,
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image(image: AssetImage(_imgUrl)),
+            Column(
+              children: [
+                Text(_title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                Text(_desc, style: const TextStyle(fontSize: 12,))
+              ],
+            ),
+            _status.isNotEmpty ?  Image(image: AssetImage(_status)) : Row()
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +195,38 @@ class _ScPaymentAddPageState extends State<ScPaymentAddPage> with TickerProvider
                             ),
                           ),
                           // Text('cards'),
-                          const Text('accounts')
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              getAccountCard('images/right_shape.png', 'images/bank.png', 'Bank Link', 'Connect your bank account to deposit & fund'),
+                              const SizedBox(height: 10),
+                              getAccountCard('', 'images/dollar.png', 'Micro deposits', 'Connect bank in 5-7 days'),
+                              const SizedBox(height: 10),
+                              getAccountCard('', 'images/logo_paypal.png', 'Paypal', 'Connect your paypal account'),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                width: 350,
+                                height: 50,
+                                child: ElevatedButton(
+                                    child: const Text(
+                                        "Next",
+                                        style: TextStyle(fontSize: 15)
+                                    ),
+                                    style: ButtonStyle(
+                                        foregroundColor: MaterialStateProperty.all<Color>(Colors.teal),
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                                side: BorderSide(color: Colors.transparent),
+                                            )
+                                        )
+                                    ),
+                                    onPressed: () => {}
+                                ),
+                              )
+                            ],
+                          )
                         ],
                       ),
                     ),

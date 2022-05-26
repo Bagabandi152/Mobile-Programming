@@ -31,7 +31,7 @@ class ScPaymentPage extends StatefulWidget {
 
 class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateMixin {
   late TabController _tabController;
-  late List<Transaction> transactions;
+  late List<Transaction> transactions = [];
 
   // late Future<List<Transaction>> futureTransactions;
   late int _selectedIndex = 2;
@@ -39,8 +39,8 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
-    super.initState();
     fetchTransaction();
+    super.initState();
     // setState(() {
     //   transactions = fetchTransaction() as List<Transaction>;
     // });
@@ -52,17 +52,16 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
     });
   }
 
-  Future fetchTransaction() async {
+  void fetchTransaction() async {
     final response = await http
-        .get(Uri.parse('https://api.jsonbin.io/b/627dbb4025069545a3345561'));
+        .get(Uri.parse('https://api.jsonbin.io/b/628f9857402a5b38020ec5c4/1'));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-
-      // debugPrint(response.body);
-
-      transactions = (jsonDecode(response.body) as List).map((data) => Transaction.fromJson(data)).toList();
+      setState(() {
+        transactions = (jsonDecode(response.body) as List).map((data) => Transaction.fromJson(data)).toList();
+      });
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -250,7 +249,8 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                         ],
                       ),
                     ),
-                    Expanded(
+                    // ignore: unnecessary_null_comparison
+                    transactions.isNotEmpty ? Expanded(
                       child: TabBarView(
                         controller: _tabController,
                         children: [
@@ -332,7 +332,7 @@ class _ScPaymentPageState extends State<ScPaymentPage> with TickerProviderStateM
                               }),
                         ],
                       ),
-                    ),
+                    ) : Container(),
                   ]),
                   decoration: const BoxDecoration(
                     color: Colors.white,
