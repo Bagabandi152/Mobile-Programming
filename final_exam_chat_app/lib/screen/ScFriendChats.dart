@@ -51,7 +51,6 @@ class _ScFriendChatsPageState extends State<ScFriendChatsPage> with TickerProvid
     ChatUser(name: "Jane Russel", messageText: "Awesome Setup", imageURL: "images/img1.png", time: "Now"),
     ChatUser(name: "Gladys Murphy", messageText: "That's Great", imageURL: "images/img2.png", time: "Yesterday"),
     ChatUser(name: "Jorge Henry", messageText: "Hey where are you?", imageURL: "images/img3.png", time: "31 Mar"),
-    ChatUser(name: "Philip Fox", messageText: "Busy! Call me in 20 minutes", imageURL: "images/img4.png", time: "28 Mar"),
     ChatUser(name: "Jacob Pena", messageText: "will update you in evening", imageURL: "images/img6.png", time: "17 Mar"),
   ];
 
@@ -252,25 +251,27 @@ class _ScFriendChatsPageState extends State<ScFriendChatsPage> with TickerProvid
                       height: 20,
                     ),
                     Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ListView.builder(
-                            itemCount: chatUsersFiltered.length,
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(0),
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index){
-                              return Column(
-                                children: [
-                                  getCharUserCard(chatUsersFiltered[index].name, chatUsersFiltered[index].messageText, chatUsersFiltered[index].imageURL, chatUsers[index].time,(index == 0 || index == 3)? 1 : 0,),
-                                  const SizedBox(height: 10,)
-                                ],
-                              );
-                            },
-                          ),
-                        ]
-                      )
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ListView.builder(
+                                itemCount: chatUsersFiltered.length,
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.all(0),
+                                // physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index){
+                                  return Column(
+                                    children: [
+                                      getCharUserCard(chatUsersFiltered[index].name, chatUsersFiltered[index].messageText, chatUsersFiltered[index].imageURL, chatUsers[index].time,(index == 0 || index == 3)? 1 : 0,),
+                                      const SizedBox(height: 10,)
+                                    ],
+                                  );
+                                },
+                              ),
+                            ]
+                      ))
                     )
                   ]),
                   decoration: const BoxDecoration(
